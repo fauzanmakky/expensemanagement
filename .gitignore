@@ -1,0 +1,23 @@
+# Android Studio specific
+*.iml
+.idea/
+.gradle/
+local.properties
+
+# Gradle build output
+build/
+.gradle/
+captures/
+
+# Keystore files (jangan sampai ikut ke Git)
+**/key.jks
+**/key.properties
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Profiling
+*.hprof
