@@ -1,9 +1,11 @@
 import 'package:dartz/dartz.dart' show Either;
 import 'package:expensemanagement/commons/error/failure.dart';
-import 'package:expensemanagement/module/expense/domain/entitiy/expense_entitiy.dart';
+import 'package:expensemanagement/module/expense/domain/entity/expense_entity.dart';
+import 'package:expensemanagement/module/expense/domain/entity/expense_param.dart';
+import 'package:expensemanagement/module/home/domain/entity/expense_category_entity.dart';
 
 abstract class ExpenseRepository {
-  Future<Either<Failure, int>> addExpense(ExpenseEntity expense);
+  Future<Either<Failure, int>> addExpense(ExpenseParam expense);
 
   Future<Either<Failure, List<ExpenseEntity>>> getExpensesWithCategory();
 
@@ -15,5 +17,5 @@ abstract class ExpenseRepository {
 
   Future<Either<Failure, double>> getThisMonthTotal();
 
-  Future<Either<Failure, List<Map<String, dynamic>>>> getThisMonthByCategory();
+  Future<Either<Failure, List<ExpenseCategoryEntity>>> getThisMonthByCategory();
 }

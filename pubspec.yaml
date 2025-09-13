@@ -38,12 +38,16 @@ dependencies:
   equatable: ^2.0.5
   bloc: ^9.0.0
   flutter_bloc: ^9.1.1
-  freezed_annotation: ^3.1.0
   get_it: ^8.2.0
   injectable: ^2.3.2
   shared_preferences: ^2.2.2
   drift: ^2.28.1
+  drift_flutter: ^0.2.6
+  sqlite3_flutter_libs: ^0.5.39
+  path_provider: ^2.1.5
   flutter_screenutil: ^5.9.0
+  flutter_svg: ^2.0.9
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
@@ -58,7 +62,6 @@ dev_dependencies:
   build_runner: ^2.4.6
   cached_network_image: ^3.3.0
   flutter_svg: ^2.0.9
-  freezed: ^3.2.3
   injectable_generator: ^2.1.4
   drift_dev: ^2.17.0
 
@@ -104,3 +107,23 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+  fonts:
+    - family: SourceSans3
+      fonts:
+        - asset: assets/fonts/SourceSans3-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/SourceSans3-Light.ttf
+          weight: 300
+        - asset: assets/fonts/SourceSans3-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/SourceSans3-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/SourceSans3-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/SourceSans3-Black.ttf
+          weight: 900
+
+  assets:
+    - assets/icon/
+

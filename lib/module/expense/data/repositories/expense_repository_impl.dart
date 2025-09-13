@@ -2,8 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:expensemanagement/commons/error/failure.dart';
 import 'package:expensemanagement/module/expense/data/mappers/expense_mapper.dart';
 import 'package:expensemanagement/module/expense/datasource/expense_local_datasource.dart';
-import 'package:expensemanagement/module/expense/domain/entitiy/expense_entitiy.dart';
+import 'package:expensemanagement/module/expense/domain/entity/expense_entity.dart';
+import 'package:expensemanagement/module/expense/domain/entity/expense_param.dart';
+
 import 'package:expensemanagement/module/expense/domain/repositories/expense_repository.dart';
+import 'package:expensemanagement/module/home/data/mapper/expense_category_mapper.dart';
+import 'package:expensemanagement/module/home/domain/entity/expense_category_entity.dart';
 
 class ExpenseRepositoryImpl implements ExpenseRepository {
   final ExpenseLocalDataSource localDataSource;
@@ -11,7 +15,7 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
   ExpenseRepositoryImpl(this.localDataSource);
 
   @override
-  Future<Either<Failure, int>> addExpense(ExpenseEntity expense) async {
+  Future<Either<Failure, int>> addExpense(ExpenseParam expense) async {
     try {
       final result = await localDataSource.addExpense(expense.toCompanion());
       return Right(result);
@@ -71,10 +75,11 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
   }
 
   @override
-  Future<Either<Failure, List<Map<String, dynamic>>>> getThisMonthByCategory() async {
+  Future<Either<Failure, List<ExpenseCategoryEntity>>> getThisMonthByCategory() async {
     try {
       final result = await localDataSource.getThisMonthByCategory();
-      return Right(result);
+      final entities = result.map((model) => model.toEntity()).toList();
+      return Right(entities);
     } catch (e) {
       return Left(DatabaseFailure(message: e.toString()));
     }

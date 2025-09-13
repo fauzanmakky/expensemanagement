@@ -392,18 +392,18 @@ class $ExpensesTable extends Expenses with TableInfo<$ExpensesTable, Expense> {
       'PRIMARY KEY AUTOINCREMENT',
     ),
   );
-  static const VerificationMeta _idCategoryMeta = const VerificationMeta(
-    'idCategory',
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
   );
   @override
-  late final GeneratedColumn<int> idCategory = GeneratedColumn<int>(
-    'id_category',
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
     aliasedName,
     false,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES categories (id_category)',
+      'REFERENCES categories (category)',
     ),
   );
   static const VerificationMeta _dateMeta = const VerificationMeta('date');
@@ -440,7 +440,7 @@ class $ExpensesTable extends Expenses with TableInfo<$ExpensesTable, Expense> {
   @override
   List<GeneratedColumn> get $columns => [
     idExpense,
-    idCategory,
+    category,
     date,
     title,
     price,
@@ -463,13 +463,13 @@ class $ExpensesTable extends Expenses with TableInfo<$ExpensesTable, Expense> {
         idExpense.isAcceptableOrUnknown(data['id_expense']!, _idExpenseMeta),
       );
     }
-    if (data.containsKey('id_category')) {
+    if (data.containsKey('category')) {
       context.handle(
-        _idCategoryMeta,
-        idCategory.isAcceptableOrUnknown(data['id_category']!, _idCategoryMeta),
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
       );
     } else if (isInserting) {
-      context.missing(_idCategoryMeta);
+      context.missing(_categoryMeta);
     }
     if (data.containsKey('date')) {
       context.handle(
@@ -508,9 +508,9 @@ class $ExpensesTable extends Expenses with TableInfo<$ExpensesTable, Expense> {
         DriftSqlType.int,
         data['${effectivePrefix}id_expense'],
       )!,
-      idCategory: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id_category'],
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
       )!,
       date: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
@@ -535,13 +535,13 @@ class $ExpensesTable extends Expenses with TableInfo<$ExpensesTable, Expense> {
 
 class Expense extends DataClass implements Insertable<Expense> {
   final int idExpense;
-  final int idCategory;
+  final String category;
   final DateTime date;
   final String title;
   final double price;
   const Expense({
     required this.idExpense,
-    required this.idCategory,
+    required this.category,
     required this.date,
     required this.title,
     required this.price,
@@ -550,7 +550,7 @@ class Expense extends DataClass implements Insertable<Expense> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id_expense'] = Variable<int>(idExpense);
-    map['id_category'] = Variable<int>(idCategory);
+    map['category'] = Variable<String>(category);
     map['date'] = Variable<DateTime>(date);
     map['title'] = Variable<String>(title);
     map['price'] = Variable<double>(price);
@@ -560,7 +560,7 @@ class Expense extends DataClass implements Insertable<Expense> {
   ExpensesCompanion toCompanion(bool nullToAbsent) {
     return ExpensesCompanion(
       idExpense: Value(idExpense),
-      idCategory: Value(idCategory),
+      category: Value(category),
       date: Value(date),
       title: Value(title),
       price: Value(price),
@@ -574,7 +574,7 @@ class Expense extends DataClass implements Insertable<Expense> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Expense(
       idExpense: serializer.fromJson<int>(json['idExpense']),
-      idCategory: serializer.fromJson<int>(json['idCategory']),
+      category: serializer.fromJson<String>(json['category']),
       date: serializer.fromJson<DateTime>(json['date']),
       title: serializer.fromJson<String>(json['title']),
       price: serializer.fromJson<double>(json['price']),
@@ -585,7 +585,7 @@ class Expense extends DataClass implements Insertable<Expense> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'idExpense': serializer.toJson<int>(idExpense),
-      'idCategory': serializer.toJson<int>(idCategory),
+      'category': serializer.toJson<String>(category),
       'date': serializer.toJson<DateTime>(date),
       'title': serializer.toJson<String>(title),
       'price': serializer.toJson<double>(price),
@@ -594,13 +594,13 @@ class Expense extends DataClass implements Insertable<Expense> {
 
   Expense copyWith({
     int? idExpense,
-    int? idCategory,
+    String? category,
     DateTime? date,
     String? title,
     double? price,
   }) => Expense(
     idExpense: idExpense ?? this.idExpense,
-    idCategory: idCategory ?? this.idCategory,
+    category: category ?? this.category,
     date: date ?? this.date,
     title: title ?? this.title,
     price: price ?? this.price,
@@ -608,9 +608,7 @@ class Expense extends DataClass implements Insertable<Expense> {
   Expense copyWithCompanion(ExpensesCompanion data) {
     return Expense(
       idExpense: data.idExpense.present ? data.idExpense.value : this.idExpense,
-      idCategory: data.idCategory.present
-          ? data.idCategory.value
-          : this.idCategory,
+      category: data.category.present ? data.category.value : this.category,
       date: data.date.present ? data.date.value : this.date,
       title: data.title.present ? data.title.value : this.title,
       price: data.price.present ? data.price.value : this.price,
@@ -621,7 +619,7 @@ class Expense extends DataClass implements Insertable<Expense> {
   String toString() {
     return (StringBuffer('Expense(')
           ..write('idExpense: $idExpense, ')
-          ..write('idCategory: $idCategory, ')
+          ..write('category: $category, ')
           ..write('date: $date, ')
           ..write('title: $title, ')
           ..write('price: $price')
@@ -630,13 +628,13 @@ class Expense extends DataClass implements Insertable<Expense> {
   }
 
   @override
-  int get hashCode => Object.hash(idExpense, idCategory, date, title, price);
+  int get hashCode => Object.hash(idExpense, category, date, title, price);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Expense &&
           other.idExpense == this.idExpense &&
-          other.idCategory == this.idCategory &&
+          other.category == this.category &&
           other.date == this.date &&
           other.title == this.title &&
           other.price == this.price);
@@ -644,37 +642,37 @@ class Expense extends DataClass implements Insertable<Expense> {
 
 class ExpensesCompanion extends UpdateCompanion<Expense> {
   final Value<int> idExpense;
-  final Value<int> idCategory;
+  final Value<String> category;
   final Value<DateTime> date;
   final Value<String> title;
   final Value<double> price;
   const ExpensesCompanion({
     this.idExpense = const Value.absent(),
-    this.idCategory = const Value.absent(),
+    this.category = const Value.absent(),
     this.date = const Value.absent(),
     this.title = const Value.absent(),
     this.price = const Value.absent(),
   });
   ExpensesCompanion.insert({
     this.idExpense = const Value.absent(),
-    required int idCategory,
+    required String category,
     required DateTime date,
     required String title,
     required double price,
-  }) : idCategory = Value(idCategory),
+  }) : category = Value(category),
        date = Value(date),
        title = Value(title),
        price = Value(price);
   static Insertable<Expense> custom({
     Expression<int>? idExpense,
-    Expression<int>? idCategory,
+    Expression<String>? category,
     Expression<DateTime>? date,
     Expression<String>? title,
     Expression<double>? price,
   }) {
     return RawValuesInsertable({
       if (idExpense != null) 'id_expense': idExpense,
-      if (idCategory != null) 'id_category': idCategory,
+      if (category != null) 'category': category,
       if (date != null) 'date': date,
       if (title != null) 'title': title,
       if (price != null) 'price': price,
@@ -683,14 +681,14 @@ class ExpensesCompanion extends UpdateCompanion<Expense> {
 
   ExpensesCompanion copyWith({
     Value<int>? idExpense,
-    Value<int>? idCategory,
+    Value<String>? category,
     Value<DateTime>? date,
     Value<String>? title,
     Value<double>? price,
   }) {
     return ExpensesCompanion(
       idExpense: idExpense ?? this.idExpense,
-      idCategory: idCategory ?? this.idCategory,
+      category: category ?? this.category,
       date: date ?? this.date,
       title: title ?? this.title,
       price: price ?? this.price,
@@ -703,8 +701,8 @@ class ExpensesCompanion extends UpdateCompanion<Expense> {
     if (idExpense.present) {
       map['id_expense'] = Variable<int>(idExpense.value);
     }
-    if (idCategory.present) {
-      map['id_category'] = Variable<int>(idCategory.value);
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
     }
     if (date.present) {
       map['date'] = Variable<DateTime>(date.value);
@@ -722,7 +720,7 @@ class ExpensesCompanion extends UpdateCompanion<Expense> {
   String toString() {
     return (StringBuffer('ExpensesCompanion(')
           ..write('idExpense: $idExpense, ')
-          ..write('idCategory: $idCategory, ')
+          ..write('category: $category, ')
           ..write('date: $date, ')
           ..write('title: $title, ')
           ..write('price: $price')
@@ -771,15 +769,14 @@ final class $$CategoriesTableReferences
   ) => MultiTypedResultKey.fromTable(
     db.expenses,
     aliasName: $_aliasNameGenerator(
-      db.categories.idCategory,
-      db.expenses.idCategory,
+      db.categories.category,
+      db.expenses.category,
     ),
   );
 
   $$ExpensesTableProcessedTableManager get expensesRefs {
     final manager = $$ExpensesTableTableManager($_db, $_db.expenses).filter(
-      (f) =>
-          f.idCategory.idCategory.sqlEquals($_itemColumn<int>('id_category')!),
+      (f) => f.category.category.sqlEquals($_itemColumn<String>('category')!),
     );
 
     final cache = $_typedResult.readTableOrNull(_expensesRefsTable($_db));
@@ -828,9 +825,9 @@ class $$CategoriesTableFilterComposer
   ) {
     final $$ExpensesTableFilterComposer composer = $composerBuilder(
       composer: this,
-      getCurrentColumn: (t) => t.idCategory,
+      getCurrentColumn: (t) => t.category,
       referencedTable: $db.expenses,
-      getReferencedColumn: (t) => t.idCategory,
+      getReferencedColumn: (t) => t.category,
       builder:
           (
             joinBuilder, {
@@ -915,9 +912,9 @@ class $$CategoriesTableAnnotationComposer
   ) {
     final $$ExpensesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
-      getCurrentColumn: (t) => t.idCategory,
+      getCurrentColumn: (t) => t.category,
       referencedTable: $db.expenses,
-      getReferencedColumn: (t) => t.idCategory,
+      getReferencedColumn: (t) => t.category,
       builder:
           (
             joinBuilder, {
@@ -1022,7 +1019,7 @@ class $$CategoriesTableTableManager
                           ).expensesRefs,
                       referencedItemsForCurrentItem: (item, referencedItems) =>
                           referencedItems.where(
-                            (e) => e.idCategory == item.idCategory,
+                            (e) => e.category == item.category,
                           ),
                       typedResults: items,
                     ),
@@ -1051,7 +1048,7 @@ typedef $$CategoriesTableProcessedTableManager =
 typedef $$ExpensesTableCreateCompanionBuilder =
     ExpensesCompanion Function({
       Value<int> idExpense,
-      required int idCategory,
+      required String category,
       required DateTime date,
       required String title,
       required double price,
@@ -1059,7 +1056,7 @@ typedef $$ExpensesTableCreateCompanionBuilder =
 typedef $$ExpensesTableUpdateCompanionBuilder =
     ExpensesCompanion Function({
       Value<int> idExpense,
-      Value<int> idCategory,
+      Value<String> category,
       Value<DateTime> date,
       Value<String> title,
       Value<double> price,
@@ -1069,19 +1066,19 @@ final class $$ExpensesTableReferences
     extends BaseReferences<_$AppDatabase, $ExpensesTable, Expense> {
   $$ExpensesTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static $CategoriesTable _idCategoryTable(_$AppDatabase db) =>
+  static $CategoriesTable _categoryTable(_$AppDatabase db) =>
       db.categories.createAlias(
-        $_aliasNameGenerator(db.expenses.idCategory, db.categories.idCategory),
+        $_aliasNameGenerator(db.expenses.category, db.categories.category),
       );
 
-  $$CategoriesTableProcessedTableManager get idCategory {
-    final $_column = $_itemColumn<int>('id_category')!;
+  $$CategoriesTableProcessedTableManager get category {
+    final $_column = $_itemColumn<String>('category')!;
 
     final manager = $$CategoriesTableTableManager(
       $_db,
       $_db.categories,
-    ).filter((f) => f.idCategory.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_idCategoryTable($_db));
+    ).filter((f) => f.category.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_categoryTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -1118,12 +1115,12 @@ class $$ExpensesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  $$CategoriesTableFilterComposer get idCategory {
+  $$CategoriesTableFilterComposer get category {
     final $$CategoriesTableFilterComposer composer = $composerBuilder(
       composer: this,
-      getCurrentColumn: (t) => t.idCategory,
+      getCurrentColumn: (t) => t.category,
       referencedTable: $db.categories,
-      getReferencedColumn: (t) => t.idCategory,
+      getReferencedColumn: (t) => t.category,
       builder:
           (
             joinBuilder, {
@@ -1171,12 +1168,12 @@ class $$ExpensesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  $$CategoriesTableOrderingComposer get idCategory {
+  $$CategoriesTableOrderingComposer get category {
     final $$CategoriesTableOrderingComposer composer = $composerBuilder(
       composer: this,
-      getCurrentColumn: (t) => t.idCategory,
+      getCurrentColumn: (t) => t.category,
       referencedTable: $db.categories,
-      getReferencedColumn: (t) => t.idCategory,
+      getReferencedColumn: (t) => t.category,
       builder:
           (
             joinBuilder, {
@@ -1216,12 +1213,12 @@ class $$ExpensesTableAnnotationComposer
   GeneratedColumn<double> get price =>
       $composableBuilder(column: $table.price, builder: (column) => column);
 
-  $$CategoriesTableAnnotationComposer get idCategory {
+  $$CategoriesTableAnnotationComposer get category {
     final $$CategoriesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
-      getCurrentColumn: (t) => t.idCategory,
+      getCurrentColumn: (t) => t.category,
       referencedTable: $db.categories,
-      getReferencedColumn: (t) => t.idCategory,
+      getReferencedColumn: (t) => t.category,
       builder:
           (
             joinBuilder, {
@@ -1253,7 +1250,7 @@ class $$ExpensesTableTableManager
           $$ExpensesTableUpdateCompanionBuilder,
           (Expense, $$ExpensesTableReferences),
           Expense,
-          PrefetchHooks Function({bool idCategory})
+          PrefetchHooks Function({bool category})
         > {
   $$ExpensesTableTableManager(_$AppDatabase db, $ExpensesTable table)
     : super(
@@ -1269,13 +1266,13 @@ class $$ExpensesTableTableManager
           updateCompanionCallback:
               ({
                 Value<int> idExpense = const Value.absent(),
-                Value<int> idCategory = const Value.absent(),
+                Value<String> category = const Value.absent(),
                 Value<DateTime> date = const Value.absent(),
                 Value<String> title = const Value.absent(),
                 Value<double> price = const Value.absent(),
               }) => ExpensesCompanion(
                 idExpense: idExpense,
-                idCategory: idCategory,
+                category: category,
                 date: date,
                 title: title,
                 price: price,
@@ -1283,13 +1280,13 @@ class $$ExpensesTableTableManager
           createCompanionCallback:
               ({
                 Value<int> idExpense = const Value.absent(),
-                required int idCategory,
+                required String category,
                 required DateTime date,
                 required String title,
                 required double price,
               }) => ExpensesCompanion.insert(
                 idExpense: idExpense,
-                idCategory: idCategory,
+                category: category,
                 date: date,
                 title: title,
                 price: price,
@@ -1302,7 +1299,7 @@ class $$ExpensesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({idCategory = false}) {
+          prefetchHooksCallback: ({category = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
@@ -1322,16 +1319,16 @@ class $$ExpensesTableTableManager
                       dynamic
                     >
                   >(state) {
-                    if (idCategory) {
+                    if (category) {
                       state =
                           state.withJoin(
                                 currentTable: table,
-                                currentColumn: table.idCategory,
+                                currentColumn: table.category,
                                 referencedTable: $$ExpensesTableReferences
-                                    ._idCategoryTable(db),
+                                    ._categoryTable(db),
                                 referencedColumn: $$ExpensesTableReferences
-                                    ._idCategoryTable(db)
-                                    .idCategory,
+                                    ._categoryTable(db)
+                                    .category,
                               )
                               as T;
                     }
@@ -1359,7 +1356,7 @@ typedef $$ExpensesTableProcessedTableManager =
       $$ExpensesTableUpdateCompanionBuilder,
       (Expense, $$ExpensesTableReferences),
       Expense,
-      PrefetchHooks Function({bool idCategory})
+      PrefetchHooks Function({bool category})
     >;
 
 class $AppDatabaseManager {

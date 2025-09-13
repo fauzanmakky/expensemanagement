@@ -7,12 +7,50 @@ class ExpenseManagementTextStyles {
 
 
 
-  static TextStyle bigTitle = _commonStyle.copyWith(
+  static TextStyle bigTitle = TextStyle(
+    fontFamily: 'SourceSans3',
     fontSize: 18,
     fontWeight: FontWeight.w700,
     height: 1.0,
     letterSpacing: 0,
   );
+
+  static TextStyle paragraphMedium = _commonStyle.copyWith(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.0,
+    letterSpacing: 0,
+  );
+
+  static TextStyle paragraphSemiBold = _commonStyle.copyWith(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    height: 1.0,
+    letterSpacing: 0,
+  );
+
+  static TextStyle paragraphBold = _commonStyle.copyWith(
+    fontSize: 14,
+    fontWeight: FontWeight.w700,
+    height: 1.0,
+    letterSpacing: 0,
+  );
+
+  static TextStyle captionMedium = _commonStyle.copyWith(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.0,
+    letterSpacing: 0,
+  );
+
+  static TextStyle  captionBold = _commonStyle.copyWith(
+    fontSize: 12,
+    fontWeight: FontWeight.w700,
+    height: 1.0,
+    letterSpacing: 0,
+  );
+
+
 
   /// displayLarge Text Style
   static TextStyle displayLarge = _commonStyle.copyWith(
@@ -62,13 +100,7 @@ class ExpenseManagementTextStyles {
     letterSpacing: -1,
   );
 
-  /// titleLarge Text Style
-  static TextStyle titleLarge = _commonStyle.copyWith(
-    fontSize: 22,
-    fontWeight: FontWeight.w500,
-    height: 1.2,
-    letterSpacing: 1.2,
-  );
+
 
   /// titleMedium Text Style
   static TextStyle titleMedium = _commonStyle.copyWith(

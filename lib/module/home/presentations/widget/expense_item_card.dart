@@ -1,51 +1,65 @@
+import 'package:expensemanagement/commons/constants/color_constants.dart';
+import 'package:expensemanagement/commons/util/color_from_hex.dart';
+import 'package:expensemanagement/style/typography/expense_management_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ExpenseItemCard extends StatelessWidget {
-  final String label;
-  final double amount;
-  final IconData icon;
-  final Color color;
+  final String icon;
+  final Color iconColor;
+  final String title;
+  final String amount;
 
   const ExpenseItemCard({
-    super.key,
-    required this.label,
-    required this.amount,
+    Key? key,
     required this.icon,
-    required this.color,
-  });
+    required this.iconColor,
+    required this.title,
+    required this.amount,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.15),
-            blurRadius: 6,
-            offset: const Offset(0, 4),
+            color: Colors.grey.withValues(alpha: 0.1),
+            spreadRadius: 1,
+            blurRadius: 10,
+            offset: Offset(0, 2),
           ),
         ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              CircleAvatar(
-                backgroundColor: color.withOpacity(0.2),
-                child: Icon(icon, color: color),
-              ),
-              const SizedBox(width: 12),
-              Text(label, style: const TextStyle(fontSize: 16)),
-            ],
+          SvgPicture.asset(
+            icon,
+            width: 24.w,
+            height: 24.h,
+            colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
           ),
+          SizedBox(width: 12.w),
           Text(
-            'Rp. ${amount.toStringAsFixed(0)}',
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            title,
+            style: Theme.of(context).textTheme.bodyMedium
+                ?.copyWith(
+              fontSize: 14.sp,
+              color: colorFromHex(ColorConstants.grey1),
+            ),
+          ),
+          const Spacer(),
+          Text(
+            amount,
+            style: Theme.of(context).textTheme.bodyLarge
+                ?.copyWith(
+              fontSize: 14.sp,
+              color: colorFromHex(ColorConstants.grey1),
+            ),
           ),
         ],
       ),

@@ -1,6 +1,7 @@
 import 'package:expensemanagement/commons/database/app_database.dart';
 import 'package:expensemanagement/module/expense/data/dao/expense_dao.dart';
 import 'package:expensemanagement/module/expense/data/model/expense_data_model.dart';
+import 'package:expensemanagement/module/home/data/model/expense_category_data_model.dart';
 
 abstract class ExpenseLocalDataSource {
   Future<int> addExpense(ExpensesCompanion expense);
@@ -15,7 +16,7 @@ abstract class ExpenseLocalDataSource {
 
   Future<double> getThisMonthTotal();
 
-  Future<List<Map<String, dynamic>>> getThisMonthByCategory();
+  Future<List<ExpenseCategoryDataModel>> getThisMonthByCategory();
 }
 
 class ExpansesLocalDatasourceImpl implements ExpenseLocalDataSource {
@@ -54,7 +55,7 @@ class ExpansesLocalDatasourceImpl implements ExpenseLocalDataSource {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getThisMonthByCategory() {
+  Future<List<ExpenseCategoryDataModel>> getThisMonthByCategory() {
     return _dao.getThisMonthByCategory();
   }
 }

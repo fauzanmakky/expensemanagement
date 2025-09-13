@@ -1,5 +1,5 @@
 import 'package:expensemanagement/module/expense/data/model/category_data_model.dart';
-import 'package:expensemanagement/module/expense/domain/entitiy/category_entity.dart';
+import 'package:expensemanagement/module/expense/domain/entity/category_entity.dart';
 
 class CategoryMapper {
   static CategoryEntity toEntity(CategoryDataModel model) {

@@ -1,30 +1,30 @@
+import 'package:expensemanagement/commons/constants/color_constants.dart';
+import 'package:expensemanagement/commons/util/color_from_hex.dart';
+import 'package:expensemanagement/module/expense/domain/entity/category_entity.dart';
+
+import 'package:expensemanagement/module/expense/presentations/expense/bloc/expense_bloc.dart';
+import 'package:expensemanagement/module/expense/presentations/expense/bloc/expense_event.dart';
+import 'package:expensemanagement/module/expense/presentations/expense/bloc/expense_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CategoryBottomSheet extends StatelessWidget {
-  final void Function(String) onSelectCategory;
+  final void Function(CategoryEntity) onSelectCategory;
 
   const CategoryBottomSheet({super.key, required this.onSelectCategory});
 
   @override
   Widget build(BuildContext context) {
-    final categories = [
-      {'label': 'Makanan', 'icon': Icons.restaurant, 'color': Colors.amber},
-      {'label': 'Internet', 'icon': Icons.wifi, 'color': Colors.lightBlue},
-      {'label': 'Edukasi', 'icon': Icons.book, 'color': Colors.orange},
-      {'label': 'Hadiah', 'icon': Icons.card_giftcard, 'color': Colors.red},
-      {'label': 'Transport', 'icon': Icons.directions_car, 'color': Colors.purple},
-      {'label': 'Belanja', 'icon': Icons.shopping_cart, 'color': Colors.green},
-      {'label': 'Alat Rumah', 'icon': Icons.home, 'color': Colors.deepPurple},
-      {'label': 'Olahraga', 'icon': Icons.sports_soccer, 'color': Colors.blue},
-      {'label': 'Hiburan', 'icon': Icons.movie, 'color': Colors.indigo},
-    ];
+    context.read<ExpenseBloc>().add(GetAllCategoriesEvent());
 
     return SafeArea(
       top: false,
       child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
           color: Colors.white,
         ),
         child: Column(
@@ -33,50 +33,76 @@ class CategoryBottomSheet extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Pilih Kategori',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                Text(
+                  'Pilih Kategori',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontSize: 14.sp,
+                    color: colorFromHex(ColorConstants.grey2),
+                  ),
+                ),
                 IconButton(
-                  icon: const Icon(Icons.close),
+                  icon:  Icon(Icons.close,color:Colors.black, ),
                   onPressed: () => Navigator.pop(context),
-                )
+                ),
               ],
             ),
-            const SizedBox(height: 8),
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: categories.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-                childAspectRatio: 1,
+            SizedBox(height: 16.h),
+            SizedBox(height: 345.h,
+              child: BlocBuilder<ExpenseBloc, ExpenseState>(
+                builder: (context, state) {
+                  final categories = state.categories;
+
+                  if (categories.isEmpty) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: categories.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 23.h,
+                      crossAxisSpacing: 16.w,
+                      childAspectRatio: 1.2,
+                    ),
+                    itemBuilder: (context, index) {
+                      final item = categories[index];
+                      return InkWell(
+                        borderRadius: BorderRadius.circular(16.r),
+                        onTap: () {
+                          onSelectCategory(item);
+                          Navigator.pop(context);
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(6.w),
+                              decoration: BoxDecoration(
+                                color: colorFromHex(item.color),
+                                shape: BoxShape.circle,
+                              ),
+                              child: SvgPicture.asset(item.icon, width: 24.w, height: 24.h),
+                            ),
+                            SizedBox(height: 4.h),
+                            Text(
+                              item.label,
+                              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                                fontSize: 12.sp,
+                                color: colorFromHex(ColorConstants.grey3),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
-              itemBuilder: (context, index) {
-                final item = categories[index];
-                return InkWell(
-                  borderRadius: BorderRadius.circular(12),
-                  onTap: () {
-                    onSelectCategory(item['label'] as String);
-                    Navigator.pop(context);
-                  },
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CircleAvatar(
-                        radius: 26,
-                        backgroundColor: (item['color'] as Color).withOpacity(0.2),
-                        child: Icon(item['icon'] as IconData,
-                            color: item['color'] as Color),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(item['label'] as String,
-                          style: const TextStyle(fontSize: 12)),
-                    ],
-                  ),
-                );
-              },
             ),
+            SizedBox(height: 16.h),
           ],
         ),
       ),

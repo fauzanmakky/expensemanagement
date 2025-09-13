@@ -3,7 +3,8 @@ import 'package:expensemanagement/commons/error/failure.dart';
 import 'package:expensemanagement/module/expense/data/mappers/category_mapper.dart';
 import 'package:expensemanagement/module/expense/data/model/category_data_model.dart';
 import 'package:expensemanagement/module/expense/datasource/category_local_datasource.dart';
-import 'package:expensemanagement/module/expense/domain/entitiy/category_entity.dart';
+import 'package:expensemanagement/module/expense/domain/entity/category_entity.dart';
+
 import 'package:expensemanagement/module/expense/domain/repositories/category_repository.dart';
 
 class CategoryRepositoryImpl implements CategoryRepository {
