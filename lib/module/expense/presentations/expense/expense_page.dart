@@ -157,18 +157,15 @@ class _ExpensePageState extends State<ExpensePage> {
                   return SizedBox(
                     height: 50.h,
                     child: FormFieldTile(
-                      label: state.selectedDate != null
-                          ? DateFormat(
-                              'EEEE, d MMMM yyyy',
-                              'id_ID',
-                            ).format(state.selectedDate ?? DateTime.now())
-                          : 'Pilih Tanggal',
+                      label: DateFormat(
+                        'EEEE, d MMMM yyyy',
+                        'id_ID',
+                      ).format(state.selectedDate),
                       trailing: Icons.calendar_month_outlined,
                       onTap: () async {
-                        final now = DateTime.now();
                         final result = await showDatePicker(
                           context: context,
-                          initialDate: state.selectedDate ?? now,
+                          initialDate: state.selectedDate,
                           firstDate: DateTime(2020),
                           lastDate: DateTime(2030),
                         );

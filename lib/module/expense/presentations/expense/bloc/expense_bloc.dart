@@ -1,5 +1,4 @@
 import 'package:expensemanagement/commons/error/failure.dart';
-import 'package:expensemanagement/module/expense/domain/entity/expense_entity.dart';
 import 'package:expensemanagement/module/expense/domain/usecase/add_default_category.dart';
 import 'package:expensemanagement/module/expense/domain/usecase/add_expense.dart';
 import 'package:expensemanagement/module/expense/domain/usecase/get_all_categories.dart';

@@ -1,6 +1,5 @@
 import 'package:expensemanagement/commons/constants/color_constants.dart';
 import 'package:expensemanagement/commons/util/color_from_hex.dart';
-import 'package:expensemanagement/style/typography/expense_management_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -46,8 +45,7 @@ class ExpenseItemCard extends StatelessWidget {
           SizedBox(width: 12.w),
           Text(
             title,
-            style: Theme.of(context).textTheme.bodyMedium
-                ?.copyWith(
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontSize: 14.sp,
               color: colorFromHex(ColorConstants.grey1),
             ),
@@ -55,8 +53,7 @@ class ExpenseItemCard extends StatelessWidget {
           const Spacer(),
           Text(
             amount,
-            style: Theme.of(context).textTheme.bodyLarge
-                ?.copyWith(
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
               fontSize: 14.sp,
               color: colorFromHex(ColorConstants.grey1),
             ),

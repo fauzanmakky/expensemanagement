@@ -1,7 +1,6 @@
 import 'package:expensemanagement/commons/constants/color_constants.dart';
 import 'package:expensemanagement/commons/util/color_from_hex.dart';
 import 'package:expensemanagement/commons/util/number_format.dart';
-import 'package:expensemanagement/style/typography/expense_management_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,7 +25,7 @@ class CategoryCard extends StatelessWidget {
       width: 120,
       height: 120,
       child: LayoutBuilder(
-        builder: (context,constraints) {
+        builder: (context, constraints) {
           debugPrint('Tinggi aktual: ${constraints.maxHeight}');
           return Container(
             padding: EdgeInsets.fromLTRB(19.w, 16.h, 19.w, 18.h),
@@ -56,8 +55,7 @@ class CategoryCard extends StatelessWidget {
                 SizedBox(height: 12.h),
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.labelMedium
-                      ?.copyWith(
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
                     fontSize: 12.sp,
                     color: colorFromHex(ColorConstants.grey3),
                   ),
@@ -67,8 +65,7 @@ class CategoryCard extends StatelessWidget {
                 SizedBox(height: 8.h),
                 Text(
                   FormatNumber.currency(amount),
-                  style: Theme.of(context).textTheme.labelLarge
-                      ?.copyWith(
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontSize: 14.sp,
                     color: colorFromHex(ColorConstants.grey1),
                   ),
@@ -78,7 +75,7 @@ class CategoryCard extends StatelessWidget {
               ],
             ),
           );
-        }
+        },
       ),
     );
   }

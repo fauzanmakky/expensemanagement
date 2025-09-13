@@ -4,7 +4,6 @@ import 'package:expensemanagement/commons/util/herlper.dart';
 import 'package:expensemanagement/module/expense/presentations/widgets/picker_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class FormFieldTile extends StatelessWidget {
   final String? icon;
@@ -37,7 +36,6 @@ class FormFieldTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-
             (!Helpers.isEmpty(icon))
                 ? PickerIcon(
                     assetPath: icon!,
@@ -50,8 +48,7 @@ class FormFieldTile extends StatelessWidget {
             Expanded(
               child: Text(
                 label,
-                style: Theme.of(context).textTheme.bodyMedium
-                    ?.copyWith(
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontSize: 14.sp,
                   color: colorFromHex(ColorConstants.grey1),
                 ),

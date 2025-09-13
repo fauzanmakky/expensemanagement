@@ -1,6 +1,5 @@
 import 'package:expensemanagement/commons/constants/color_constants.dart';
 import 'package:expensemanagement/commons/util/color_from_hex.dart';
-import 'package:expensemanagement/style/typography/expense_management_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -37,16 +36,14 @@ class SummaryCard extends StatelessWidget {
           children: [
             Text(
               title,
-              style: Theme.of(context).textTheme.bodyLarge
-                  ?.copyWith(
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontSize: 14.sp,
                 color: colorFromHex(ColorConstants.white),
               ),
             ),
             Text(
               amount,
-              style: Theme.of(context).textTheme.titleLarge
-                  ?.copyWith(
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontSize: 18.sp,
                 color: colorFromHex(ColorConstants.white),
               ),

@@ -1,18 +1,15 @@
-import 'dart:math';
-
 import 'package:expensemanagement/commons/util/herlper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-abstract class FormatNumber implements NumberFormat{
-
+abstract class FormatNumber implements NumberFormat {
   static String currency(
-      String? number, {
-        bool usePrefix = true,
-        bool isForceToInt = false,
-        int decimalDigits = 2,
-      }) {
+    String? number, {
+    bool usePrefix = true,
+    bool isForceToInt = false,
+    int decimalDigits = 2,
+  }) {
     final nums = Helpers.validateNumberDouble(number);
     final format = NumberFormat('#,###', 'id-ID');
     if (!isForceToInt) {
@@ -25,18 +22,18 @@ abstract class FormatNumber implements NumberFormat{
   }
 }
 
-
-
-
-
 class ThousandsInputFormatter extends TextInputFormatter {
   final NumberFormat _fmt;
 
   /// locale default 'id_ID' -> grouping separator '.' and no decimal
-  ThousandsInputFormatter({String locale = 'id_ID'}) : _fmt = NumberFormat.decimalPattern(locale);
+  ThousandsInputFormatter({String locale = 'id_ID'})
+    : _fmt = NumberFormat.decimalPattern(locale);
 
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     // Jika kosong -> langsung return
     if (newValue.text.isEmpty) return newValue.copyWith(text: '');
 
@@ -54,9 +51,15 @@ class ThousandsInputFormatter extends TextInputFormatter {
 
     // Hitung caret position baru:
     // dasar: posisi relatif terhadap jumlah digit sebelum caret
-    final oldDigitsBeforeCaret = _countDigitsBeforeCaret(newValue.text, newValue.selection.end);
+    final oldDigitsBeforeCaret = _countDigitsBeforeCaret(
+      newValue.text,
+      newValue.selection.end,
+    );
     // setelah format, cari posisi caret supaya berada setelah jumlah digit yang sama
-    final newCaretPosition = _calculateCaretPositionFromDigitIndex(newText, oldDigitsBeforeCaret);
+    final newCaretPosition = _calculateCaretPositionFromDigitIndex(
+      newText,
+      oldDigitsBeforeCaret,
+    );
 
     return TextEditingValue(
       text: newText,
@@ -76,7 +79,10 @@ class ThousandsInputFormatter extends TextInputFormatter {
     return count;
   }
 
-  int _calculateCaretPositionFromDigitIndex(String formattedText, int digitIndex) {
+  int _calculateCaretPositionFromDigitIndex(
+    String formattedText,
+    int digitIndex,
+  ) {
     // iterate formattedText and count digits until reach digitIndex
     int digitsSeen = 0;
     for (int i = 0; i < formattedText.length; i++) {

@@ -10,7 +10,6 @@ import 'package:expensemanagement/module/home/presentations/widget/empty_card.da
 import 'package:expensemanagement/module/home/presentations/widget/expense_item_card.dart';
 import 'package:expensemanagement/module/home/presentations/widget/sticky_section_header.dart';
 import 'package:expensemanagement/module/home/presentations/widget/summary_card.dart';
-import 'package:expensemanagement/style/typography/expense_management_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
